@@ -65,7 +65,8 @@ export default function TemporaryDrawer() {
     </Box> 
   );
 
-  return (
+  
+    return (
     <div>
       
       {['left'].map((anchor) => (
