@@ -1,5 +1,7 @@
 // import Link from 'next/link';
 // import Modal from '@/components/Modal';
+// import Modal from 'react-modal';
+// import { useState } from 'react';
 
 export default async function JobInfo() {
   //   console.log({
@@ -8,6 +10,7 @@ export default async function JobInfo() {
   //   });
   //   const { rows } = await sql`SELECT * from users;`;
   //   console.log(rows);
+//   const [isOpen, setIsOpen] = useState(false);
   return (
     <main>
       <div>
