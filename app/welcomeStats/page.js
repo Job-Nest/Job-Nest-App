@@ -1,6 +1,8 @@
+'use client'
+
 import { sql } from '@vercel/postgres';
 
-export default async function WelcomeStats() {
+export default function WelcomeStats() {
   //   console.log({
   //     POSTGRES_URL: process.env.POSTGRES_URL,
   //     POSTGRES_URL_NON_POOLING: process.env.POSTGRES_URL_NON_POOLING,
