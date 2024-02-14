@@ -1,11 +1,8 @@
-// import Link from 'next/link';
-// import Modal from '@/components/Modal';
-// import Modal from 'react-modal';
-// import React from 'react';
-// import { useState } from 'react';
-import { sql } from '@vercel/postgres';
-// import handler from '../../handler';
+// 'use server';
+// 'use client';
 
+import { sql } from '@vercel/postgres';
+import { revalidatePath } from 'next/cache';
 export default async function JobInfo() {
   //   console.log(sql);
   // {
@@ -19,35 +16,32 @@ export default async function JobInfo() {
   //     user_id: null
   //   },
 
-  //   console.log(rows);
-
-  //   const [editing, setEditing] = useState(false);
-  //   const [rows, setRows] = useState([]);
-  //   const [count, setCount] = useState(1);
   const { rows } = await sql`SELECT DISTINCT * from Jobs;`;
   console.log(rows);
-  //   useEffect(() => {
-  //     async function fetchJobs() {
-  //       try {
-  //         const { rows: data } = await sql`SELECT DISTINCT * from Jobs;`;
-  //         console.log(data);
-  //         setRows(data);
-  //       } catch (error) {
-  //         console.log('error', error);
-  //       }
-  //     }
-  //     fetchJobs();
-  //   }, []);
 
-  //   //   console.log(editing);
-  //   const handleEdit = () => {
-  //     setEditing(true);
-  //   };
+  async function addJob(FormData) {
+    'use server';
+    console.log('hi');
+    const companyName = FormData.get('companyName');
+    const jobTitle = FormData.get('jobTitle');
+    const location = FormData.get('location');
 
-  //   console.log(editing);
+    await sql`INSERT INTO Jobs (company_name, job_title, location) VALUES (${companyName}, ${jobTitle}, ${location});`;
+    revalidatePath('/jobInfo');
+  }
+  // } = async (FormData) => {
+  //   // console.log('hi');
+  //   // 'use server';
+
+  //   const content = FormData.get('content');
+
+  //   let test =
+  //     await sql`INSERT INTO Jobs (company_name, job_title) VALUES (${content}, ${content});`;
+  //   console.log(test);
+  //   console.log('hi');
+  // };
   return (
     <main>
-      {/* {editing && <div>Hello</div>} */}
       <div>
         {rows.map((ele) => (
           <div
@@ -56,10 +50,31 @@ export default async function JobInfo() {
           >
             <div>{ele.company_name}</div>
             <div>{ele.job_title}</div>
-            {/* <button onClick={handleEdit}>Edit</button> */}
+            <div>{ele.location}</div>
           </div>
         ))}
       </div>
+      <form action={addJob}>
+        <input
+          type='text'
+          name='companyName'
+          placeholder='Add Company Name'
+          required
+        />
+        <input
+          type='text'
+          name='jobTitle'
+          placeholder='Add Job Title'
+          required
+        />
+        <input
+          type='text'
+          name='location'
+          placeholder='Add Location'
+          required
+        />
+        <button>Add Job</button>
+      </form>
     </main>
   );
 }
