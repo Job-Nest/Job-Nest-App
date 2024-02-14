@@ -99,17 +99,12 @@ import Listings from './listings/page';
 // }
 
 export default function Home() {
-  //   console.log({
-  //     POSTGRES_URL: process.env.POSTGRES_URL,
-  //     POSTGRES_URL_NON_POOLING: process.env.POSTGRES_URL_NON_POOLING,
-  //   });
-  //   const { rows } = await sql`SELECT * from users;`;
-  //   console.log(rows);
   return (
     <main
       className='welcome-stats'
       style={{
         display: 'flex',
+        flexDirection: 'column',
         gap: '50px',
         justifyContent: 'center',
         marginTop: '50px',

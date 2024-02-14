@@ -5,12 +5,7 @@ import Application from './application/page';
 import Interview from './interview/page';
 
 export default function Listings() {
-  //   console.log({
-  //     POSTGRES_URL: process.env.POSTGRES_URL,
-  //     POSTGRES_URL_NON_POOLING: process.env.POSTGRES_URL_NON_POOLING,
-  //   });
-  //   const { rows } = await sql`SELECT * from users;`;
-  //   console.log(rows);
+ 
   return (
     <main
       className='welcome-stats'
@@ -23,8 +18,8 @@ export default function Listings() {
       }}
     >
       <JobInfo/>
-      <Application />
-      <Interview />
+      {/* <Application />
+      <Interview /> */}
     </main>
   );
 }
