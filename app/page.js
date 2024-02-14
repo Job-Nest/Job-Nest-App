@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import * as React from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -15,15 +15,18 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 
 import WelcomeStats from './welcomeStats/page';
-
+import Listings from './listings/page';
 
 export default function TemporaryDrawer() {
   const [state, setState] = React.useState({
-    left: false,  
+    left: false,
   });
 
   const toggleDrawer = (anchor, open) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+    if (
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
       return;
     }
     setState({ ...state, [anchor]: open });
@@ -32,7 +35,7 @@ export default function TemporaryDrawer() {
   const list = (anchor) => (
     <Box
       sx={{ width: 250 }}
-      role="presentation"
+      role='presentation'
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
@@ -50,28 +53,36 @@ export default function TemporaryDrawer() {
         ))}
       </List>
       <Divider />
-        <List style={{ display:'flex', flexDirection: 'column', justifyContent:'flex-end', background: 'red', color:'white'}}>
-          {['Sign Out'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-    </Box> 
+      <List
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-end',
+          background: 'red',
+          color: 'white',
+        }}
+      >
+        {['Sign Out'].map((text, index) => (
+          <ListItem key={text} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Box>
   );
 
-  
-    return (
+  return (
     <div>
-      
       {['left'].map((anchor) => (
         <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}><MenuIcon fontSize="large"></MenuIcon></Button>
+          <Button onClick={toggleDrawer(anchor, true)}>
+            <MenuIcon fontSize='large'></MenuIcon>
+          </Button>
           <Drawer
             anchor={anchor}
             open={state[anchor]}
@@ -81,8 +92,8 @@ export default function TemporaryDrawer() {
           </Drawer>
         </React.Fragment>
       ))}
-     <WelcomeStats/>
-        
+      <WelcomeStats />
+      <Listings/>
     </div>
   );
 }
