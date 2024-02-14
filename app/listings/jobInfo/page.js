@@ -2,10 +2,10 @@
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import Box from '@mui/material/Box'
-import { DataGrid } from '@mui/x-data-grid'
 
 export default async function JobInfo() {
 
+  
   const { rows } = await sql`SELECT DISTINCT * from Jobs;`;
   console.log(rows);
 
@@ -22,8 +22,12 @@ export default async function JobInfo() {
 
   return (
     <main>
-  
-      <form action={addJob}>
+      <div style={{width: '100%', display: 'flex', justifyContent: 'space-evenly'}}>
+  <h5>Company</h5>
+  <h5>Job Position</h5>
+  <h5>Location</h5>
+  </div>
+      <form action={addJob} style={{width: '100%', display: 'flex', justifyContent: 'space-evenly'}}>
         <input
           type='text'
           name='companyName'
@@ -44,18 +48,18 @@ export default async function JobInfo() {
         />
         <button>Add Job</button>
       </form>
-      <Box sx={{height: 400, width: '100%'}}>
+
         {rows.map((ele) => (
           <div
             key={ele.job_id}
-            style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}
+            style={{ display: 'flex', justifyContent: 'space-evenly'}}
           >
             <div>{ele.company_name}</div>
             <div>{ele.job_title}</div>
             <div>{ele.location}</div>
           </div>
         ))}
-      </Box>
+      
     </main>
   );
 }

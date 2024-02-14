@@ -1,4 +1,3 @@
-// 'use client';
 
 // import * as React from 'react';
 // import MenuIcon from '@mui/icons-material/Menu';
@@ -16,6 +15,7 @@
 
 import WelcomeStats from './welcomeStats/page';
 import Listings from './listings/page';
+import { DataGrid } from '@mui/x-data-grid'
 
 // export default function TemporaryDrawer() {
 //   const [state, setState] = React.useState({
@@ -98,7 +98,7 @@ import Listings from './listings/page';
 //   );
 // }
 
-export default function Home() {
+export default async function Home() {
   return (
     <main
       className='welcome-stats'

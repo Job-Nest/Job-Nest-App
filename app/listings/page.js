@@ -1,4 +1,4 @@
-// 'use client'
+
 import { sql } from '@vercel/postgres';
 import JobInfo from './jobInfo/page';
 import Application from './application/page';
