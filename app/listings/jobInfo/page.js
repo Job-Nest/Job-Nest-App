@@ -3,6 +3,8 @@
 
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
+// import { useState } from 'react';
+// import react from 'react';
 export default async function JobInfo() {
   //   console.log(sql);
   // {
@@ -15,13 +17,11 @@ export default async function JobInfo() {
   //     contact_phone: '5552222',
   //     user_id: null
   //   },
-
   const { rows } = await sql`SELECT DISTINCT * from Jobs;`;
   console.log(rows);
 
   async function addJob(FormData) {
     'use server';
-    console.log('hi');
     const companyName = FormData.get('companyName');
     const jobTitle = FormData.get('jobTitle');
     const location = FormData.get('location');
@@ -29,20 +29,53 @@ export default async function JobInfo() {
     await sql`INSERT INTO Jobs (company_name, job_title, location) VALUES (${companyName}, ${jobTitle}, ${location});`;
     revalidatePath('/jobInfo');
   }
-  // } = async (FormData) => {
-  //   // console.log('hi');
-  //   // 'use server';
 
-  //   const content = FormData.get('content');
+  async function editJob(FormData) {
+    'use server';
+    console.log('hi');
+    // console.log(jobId);
+    const editCompanyName = FormData.get('editCompanyName');
+    const editJobTitle = FormData.get('editJobTitle');
+    const editLocation = FormData.get('editJobLocation');
+    const jobId = FormData.get('jobId');
+    console.log(jobId);
+    console.log(editCompanyName);
 
-  //   let test =
-  //     await sql`INSERT INTO Jobs (company_name, job_title) VALUES (${content}, ${content});`;
-  //   console.log(test);
-  //   console.log('hi');
-  // };
+    await sql`UPDATE Jobs SET company_name=${editCompanyName}, job_title=${editJobTitle}, location=${editLocation} WHERE job_id=${jobId};`;
+    revalidatePath('/jobInfo');
+  }
+
   return (
     <main>
       <div>
+        <form
+          action={addJob}
+          style={{
+            width: '100%',
+            display: 'flex',
+            justifyContent: 'space-evenly',
+          }}
+        >
+          <input
+            type='text'
+            name='companyName'
+            placeholder='Add Company Name'
+            required
+          />
+          <input
+            type='text'
+            name='jobTitle'
+            placeholder='Add Job Title'
+            required
+          />
+          <input
+            type='text'
+            name='location'
+            placeholder='Add Location'
+            style={{ display: 'flex', justifyContent: 'space-evenly' }}
+          />
+          <button>Add Job</button>
+        </form>
         {rows.map((ele) => (
           <div
             key={ele.job_id}
@@ -51,30 +84,39 @@ export default async function JobInfo() {
             <div>{ele.company_name}</div>
             <div>{ele.job_title}</div>
             <div>{ele.location}</div>
+            <form action={editJob}>
+              <input
+                type='text'
+                name='editCompanyName'
+                placeholder='Edit Company Name'
+                required
+              />
+              <input
+                type='text'
+                name='editJobTitle'
+                placeholder='Edit Job Title'
+                required
+              />
+              <input
+                type='text'
+                name='editJobLocation'
+                placeholder='Edit Job Location'
+                required
+              />
+              <input type='hidden' name='jobId' value={ele.job_id} />
+              <button>Edit Job</button>
+            </form>
+            <form action={deleteJob}>
+              <input
+                type='hidden'
+                name='jobId'
+                value={ele.job_id}
+              />
+              <button></button>
+            </form>
           </div>
         ))}
       </div>
-      <form action={addJob}>
-        <input
-          type='text'
-          name='companyName'
-          placeholder='Add Company Name'
-          required
-        />
-        <input
-          type='text'
-          name='jobTitle'
-          placeholder='Add Job Title'
-          required
-        />
-        <input
-          type='text'
-          name='location'
-          placeholder='Add Location'
-          required
-        />
-        <button>Add Job</button>
-      </form>
     </main>
   );
 }
