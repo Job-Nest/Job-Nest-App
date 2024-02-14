@@ -1,12 +1,30 @@
 // 'use server';
-// 'use client';
+'use client';
 
-import { sql } from '@vercel/postgres';
-import { revalidatePath } from 'next/cache';
+import { getJobs, addJob, editJob, deleteJob } from './actions';
+import { useState, useEffect } from 'react';
+// import { sql } from '@vercel/postgres';
+// import { revalidatePath } from 'next/cache';
 // import { useState } from 'react';
 // import react from 'react';
-export default async function JobInfo() {
-  //   console.log(sql);
+
+export default function JobInfo() {
+  // revalidatePath('/jobInfo');
+  const [rows, setRows] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const jobs = await getJobs();
+        setRows(jobs);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  console.log(rows);
   // {
   //     job_id: 2,
   //     company_name: 'Meta',
@@ -17,33 +35,40 @@ export default async function JobInfo() {
   //     contact_phone: '5552222',
   //     user_id: null
   //   },
-  const { rows } = await sql`SELECT DISTINCT * from Jobs;`;
-  console.log(rows);
 
-  async function addJob(FormData) {
-    'use server';
-    const companyName = FormData.get('companyName');
-    const jobTitle = FormData.get('jobTitle');
-    const location = FormData.get('location');
+  // const { rows } = await sql`SELECT DISTINCT * from Jobs;`;
 
-    await sql`INSERT INTO Jobs (company_name, job_title, location) VALUES (${companyName}, ${jobTitle}, ${location});`;
-    revalidatePath('/jobInfo');
-  }
+  // async function addJob(FormData) {
+  //   'use server';
+  //   const companyName = FormData.get('companyName');
+  //   const jobTitle = FormData.get('jobTitle');
+  //   const location = FormData.get('location');
 
-  async function editJob(FormData) {
-    'use server';
-    console.log('hi');
-    // console.log(jobId);
-    const editCompanyName = FormData.get('editCompanyName');
-    const editJobTitle = FormData.get('editJobTitle');
-    const editLocation = FormData.get('editJobLocation');
-    const jobId = FormData.get('jobId');
-    console.log(jobId);
-    console.log(editCompanyName);
+  //   await sql`INSERT INTO Jobs (company_name, job_title, location) VALUES (${companyName}, ${jobTitle}, ${location});`;
+  //   revalidatePath('/jobInfo');
+  // }
 
-    await sql`UPDATE Jobs SET company_name=${editCompanyName}, job_title=${editJobTitle}, location=${editLocation} WHERE job_id=${jobId};`;
-    revalidatePath('/jobInfo');
-  }
+  // async function editJob(FormData) {
+  //   'use server';
+  //   console.log('hi');
+  //   // console.log(jobId);
+  //   const editCompanyName = FormData.get('editCompanyName');
+  //   const editJobTitle = FormData.get('editJobTitle');
+  //   const editLocation = FormData.get('editJobLocation');
+  //   const jobId = FormData.get('jobId');
+  //   console.log(jobId);
+  //   console.log(editCompanyName);
+
+  //   await sql`UPDATE Jobs SET company_name=${editCompanyName}, job_title=${editJobTitle}, location=${editLocation} WHERE job_id=${jobId};`;
+  //   revalidatePath('/jobInfo');
+  // }
+
+  // async function deleteJob(FormData) {
+  //   'use server';
+  //   const jobId = FormData.get('jobId');
+  //   await sql`DELETE FROM Jobs WHERE job_id=${jobId};`;
+  //   revalidatePath('/jobInfo');
+  // }
 
   return (
     <main>
@@ -107,12 +132,8 @@ export default async function JobInfo() {
               <button>Edit Job</button>
             </form>
             <form action={deleteJob}>
-              <input
-                type='hidden'
-                name='jobId'
-                value={ele.job_id}
-              />
-              <button></button>
+              <input type='hidden' name='jobId' value={ele.job_id} />
+              <button>Delete Job</button>
             </form>
           </div>
         ))}
