@@ -1,102 +1,59 @@
-import Image from 'next/image';
-import styles from './page.module.css';
-import { sql } from '@vercel/postgres';
+// import WelcomeStats from './welcomeStats/page';
+import Listings from './listings/page';
+// import { redirect } from 'next/navigation';
+// import { useState } from 'react';
+// import react from 'react';
 
-export default async function Home() {
-  console.log({
-    POSTGRES_URL: process.env.POSTGRES_URL,
-    POSTGRES_URL_NON_POOLING: process.env.POSTGRES_URL_NON_POOLING,
-  });
-  const { rows } = await sql`SELECT * from test;`;
-  console.log(rows);
+export default function Home() {
+  // const [loggedin, setLoggedIn] = useState(false);
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.js</code>
-        </p>
-        <div>
-          <a
-            href='https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app'
-            target='_blank'
-            rel='noopener noreferrer'
-          >
-            By{' '}
-            <Image
-              src='/vercel.svg'
-              alt='Vercel Logo'
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src='/next.svg'
-          alt='Next.js Logo'
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href='https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app'
-          className={styles.card}
-          target='_blank'
-          rel='noopener noreferrer'
+    <main
+      className='welcome-stats'
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '50px',
+        justifyContent: 'center',
+        marginTop: '50px',
+      }}
+    >
+      <h1 style={{ textAlign: 'left', color: '#023047', marginLeft: '20px' }}>
+        Job Nest
+      </h1>
+      <form style={{marginLeft:'20px'}}>
+        <input type='text' name='username' placeholder='Username' />
+        <input type='text' name='password' placeholder='Password' />
+        <button
+          style={{
+            backgroundColor: '#023047',
+            whiteSpace: 'nowrap',
+            color: 'white',
+            borderRadius: '0.4em',
+            padding: '0.3em',
+            border: 'none',
+            marginLeft: '10px'
+          }}
         >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href='https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app'
-          className={styles.card}
-          target='_blank'
-          rel='noopener noreferrer'
+          Login
+        </button>
+        <br />
+        <button
+          style={{
+            backgroundColor: '#023047',
+            whiteSpace: 'nowrap',
+            color: 'white',
+            borderRadius: '0.4em',
+            padding: '0.3em',
+            border: 'none',
+            marginTop: '10px'
+          }}
         >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href='https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app'
-          className={styles.card}
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href='https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app'
-          className={styles.card}
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+          Logout
+        </button>
+      </form>
+      {/* <WelcomeStats/> */}
+      <Listings />
     </main>
   );
 }
