@@ -76,6 +76,20 @@ export default async function JobInfo() {
   return (
     <main>
       <div>
+        <div
+          style={{
+            display: 'flex',
+            color: 'darkblue',
+            fontWeight: 'bold',
+            maxWidth: '500px',
+          }}
+        >
+          <div style={{marginRight: '47px'}}>
+            Company Title
+          </div>
+          <div style={{ marginRight:'92px'}}>Job Title</div>
+          <div>Location</div>
+        </div>
         {/* <form
           action={addJob}
           style={{
@@ -109,44 +123,47 @@ export default async function JobInfo() {
             key={ele.job_id}
             style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}
           >
-            <div style={{ width: '200px' }}>{ele.company_name}</div>
-            <div style={{ width: '200px' }}>{ele.job_title}</div>
-            <div style={{ width: '200px' }}>{ele.location}</div>
+            <div style={{ width: '150px' }}>{ele.company_name}</div>
+            <div style={{ width: '150px' }}>{ele.job_title}</div>
+            <div style={{ width: '150px' }}>{ele.location}</div>
             {/* <span style={{ display: 'inline-block' }}> */}
-              <form action={editJob}>
-                <input
-                  type='text'
-                  name='editCompanyName'
-                  placeholder='Edit Company Name'
-                  required
-                />
-                <input
-                  type='text'
-                  name='editJobTitle'
-                  placeholder='Edit Job Title'
-                  required
-                />
-                <input
-                  type='text'
-                  name='editJobLocation'
-                  placeholder='Edit Job Location'
-                  required
-                />
-                <input type='hidden' name='jobId' value={ele.job_id} />
-                <button
-                  style={{
-                    backgroundColor: '#023047',
-                    color: 'white',
-                    borderRadius: '0.4em',
-                    padding: '0.3em',
-                    border: 'none',
-                    marginLeft: '12em',
-                  }}
-                >
-                  Edit Job
-                </button>
-              </form>
-            {/* </span> */}
+            <form
+              action={editJob}
+              style={{ display: 'flex', alignItems: 'center' }}
+            >
+              <input
+                type='text'
+                name='editCompanyName'
+                placeholder='Edit Company Name'
+                required
+              />
+              <input
+                type='text'
+                name='editJobTitle'
+                placeholder='Edit Job Title'
+                required
+              />
+              <input
+                type='text'
+                name='editJobLocation'
+                placeholder='Edit Job Location'
+                required
+              />
+              <input type='hidden' name='jobId' value={ele.job_id} />
+              <button
+                style={{
+                  backgroundColor: '#023047',
+                  whiteSpace: 'nowrap',
+                  color: 'white',
+                  borderRadius: '0.4em',
+                  padding: '0.3em',
+                  border: 'none',
+                  marginLeft: '12em',
+                }}
+              >
+                Save Changes
+              </button>
+            </form>
             <form action={deleteJob}>
               <input type='hidden' name='jobId' value={ele.job_id} />
               <button
@@ -157,7 +174,6 @@ export default async function JobInfo() {
                   borderRadius: '0.4em',
                   padding: '0.3em',
                   border: 'none',
-                  marginLeft: '1em',
                 }}
               >
                 Delete Job

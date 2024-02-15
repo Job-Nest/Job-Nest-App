@@ -22,59 +22,70 @@ export default function Listings() {
     await sql`INSERT INTO Jobs (company_name, job_title, location) VALUES (${companyName}, ${jobTitle}, ${location});`;
     revalidatePath('/jobInfo');
   }
+  async function getTotalApps() {
+    'use server'
+    const {rows} = await sql`Select * from jobs `
+    revalidatePath('/jobInfo')
+    return rows.length
+  }
+  
   return (
     <div>
-        <form
-          action={addJob}
-          style={{
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'space-evenly',
-          }}
-        >
-          <input
-            type='text'
-            name='companyName'
-            placeholder='Add Company Name'
-            required
-          />
-          <input
-            type='text'
-            name='jobTitle'
-            placeholder='Add Job Title'
-            required
-          />
-          <input
-            type='text'
-            name='location'
-            placeholder='Add Location'
-            style={{ display: 'flex', justifyContent: 'space-evenly' }}
-          />
-          <button>Add Job</button>
-        <br></br>
-        <div style={{ display: 'flex' }}>
-          <p style={{ width: '200px' }}>Company</p>
-          <p style={{ width: '200px' }}>Job Title</p>
-          <p style={{ width: '200px' }}>Location</p>
-        </div>
+        <div className='welcome-stats' style={{ display: 'flex', justifyContent: 'center', alignItems:'center', flexDirection: 'column', marginBottom:'20px' }}>
+      <h2>Hello, Vicky!</h2>
+      <div className='stats'>Total Applications Sent: {getTotalApps()}</div>
+      {/* <div className='stats'>Interviewing: {`${3}`}</div>
+      <div className='stats'>Applied: {`${150}`}</div>
+      <div className='stats'>Done: {`${347}`}</div> */}
+    </div>
+      <form
+        action={addJob}
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+        }}>
+        <input
+          type='text'
+          name='companyName'
+          placeholder='Add Company Name'
+          required/>
+        <input
+          type='text'
+          name='jobTitle'
+          placeholder='Add Job Title'
+          required/>
+        <input
+          type='text'
+          name='location'
+          placeholder='Add Location'
+          style={{ display: 'flex', justifyContent: 'space-evenly' }}/>
+        <button style={{
+          whiteSpace: 'nowrap',
+          backgroundColor: '#023047',
+          color: 'white',
+          borderRadius: '0.4em',
+          padding: '0.3em',
+          border: 'none',
+
+        }}>Add Job</button>
       </form>
-      <main
+      <div
         className='welcome-stats'
         style={{
-          backgroundColor: 'lightblue',
-          width: '100%',
+          // width: '100%',
           display: 'flex',
           gap: '50px',
           flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
-          marginBottom: '500px',
         }}
       >
         <JobInfo />
         <Application />
-        <Interview />
-      </main>
+        <div style={{ maxWidth: '100px' }}>
+          <Interview />
+        </div>
+      </div>
     </div>
   );
 }
